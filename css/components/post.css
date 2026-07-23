@@ -100,7 +100,7 @@
 }
 
 /* ==========================================================================
-   Rich Text & Content
+   Rich Text, Content & Inline Translation
    ========================================================================== */
 .post-content {
     margin-bottom: 1rem;
@@ -124,6 +124,36 @@
     text-decoration: underline;
 }
 
+/* Стили для блока перевода */
+.post-translation {
+    margin-top: 1rem;
+    padding-top: 0.75rem;
+    border-top: 1px dashed var(--border-color);
+    animation: fadeInTranslation 0.3s ease;
+}
+
+.post-translation-header {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.4rem;
+}
+
+.post-translation-text {
+    font-size: 0.95rem;
+    white-space: pre-wrap;
+    word-break: break-word;
+    color: var(--text-main);
+}
+
+@keyframes fadeInTranslation {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Медиа */
 .post-media {
     width: 100%;
     margin-top: 0.85rem;
@@ -141,7 +171,7 @@
 }
 
 /* ==========================================================================
-   Подвал поста и Кнопки действий (Копировать/Перевести)
+   Подвал поста и Кнопки действий
    ========================================================================== */
 .post-footer {
     display: flex;
@@ -179,7 +209,25 @@
 
 .action-btn:hover {
     background-color: var(--bg-body);
+    color: var(--text-main);
+}
+
+/* Активное состояние кнопки перевода */
+.action-btn.active {
     color: var(--accent-color);
+    background-color: rgba(0, 100, 209, 0.08);
+}
+[data-theme="dark"] .action-btn.active {
+    background-color: rgba(210, 168, 80, 0.1);
+}
+
+/* Анимация загрузки для иконки перевода */
+.action-btn.loading .translate-icon {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
 }
 
 .action-btn.success {

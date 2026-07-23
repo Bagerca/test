@@ -1,4 +1,5 @@
 import { formatRichText } from './parser.js';
+import { translateTextApi } from './api.js';
 
 export class FeedManager {
     constructor(config) {
@@ -126,18 +127,70 @@ export class FeedManager {
             // Рендерим очищенный текст
             clone.querySelector('.post-text').innerHTML = formatRichText(contentToParse);
             
-            // --- КНОПКИ ДЕЙСТВИЙ (Копировать / Перевести) ---
+            // --- КНОПКИ ДЕЙСТВИЙ (Копировать / Перевести Inline) ---
             const rawTextForActions = contentToParse.trim();
             const postActionsBlock = clone.querySelector('.post-actions');
             
             if (rawTextForActions.length > 0) {
                 const copyBtn = clone.querySelector('.copy-btn');
                 const translateBtn = clone.querySelector('.translate-btn');
+                
+                const translationContainer = clone.querySelector('.post-translation');
+                const translateTextEl = clone.querySelector('.post-translation-text');
 
-                // 1. Ссылка на Google Translate
-                translateBtn.href = `https://translate.google.com/?sl=en&tl=ru&text=${encodeURIComponent(rawTextForActions)}&op=translate`;
+                // Логика Inline-перевода
+                let isTranslated = false;
+                let cachedTranslation = '';
 
-                // 2. Логика копирования
+                translateBtn.addEventListener('click', async () => {
+                    if (isTranslated) {
+                        // Скрываем перевод
+                        translationContainer.style.display = 'none';
+                        translateBtn.classList.remove('active');
+                        translateBtn.querySelector('span').textContent = 'Перевести';
+                        isTranslated = false;
+                        return;
+                    }
+
+                    if (cachedTranslation) {
+                        // Показываем из кэша (чтобы не спамить API)
+                        translationContainer.style.display = 'block';
+                        translateBtn.classList.add('active');
+                        translateBtn.querySelector('span').textContent = 'Скрыть перевод';
+                        isTranslated = true;
+                        return;
+                    }
+
+                    try {
+                        // Статус загрузки
+                        translateBtn.classList.add('loading');
+                        translateBtn.querySelector('span').textContent = 'Переводим...';
+                        
+                        console.log(`[Translate] Отправка запроса для поста: ${post.id}`);
+                        const translatedRawText = await translateTextApi(rawTextForActions);
+                        
+                        // Прогоняем переведенный текст через парсер ссылок и хэштегов
+                        cachedTranslation = formatRichText(translatedRawText);
+                        
+                        translateTextEl.innerHTML = cachedTranslation;
+                        translationContainer.style.display = 'block';
+                        
+                        translateBtn.classList.remove('loading');
+                        translateBtn.classList.add('active');
+                        translateBtn.querySelector('span').textContent = 'Скрыть перевод';
+                        isTranslated = true;
+                        
+                        console.log(`[Translate] Успешно!`);
+                    } catch (error) {
+                        translateBtn.classList.remove('loading');
+                        translateBtn.querySelector('span').textContent = 'Ошибка!';
+                        setTimeout(() => {
+                            translateBtn.querySelector('span').textContent = 'Перевести';
+                        }, 2500);
+                    }
+                });
+
+                // Логика копирования
                 copyBtn.addEventListener('click', async () => {
                     try {
                         await navigator.clipboard.writeText(rawTextForActions);
