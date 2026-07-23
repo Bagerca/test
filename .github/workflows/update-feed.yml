@@ -1,0 +1,50 @@
+# .github/workflows/update-feed.yml
+
+name: Auto Update Bendy Feed
+
+on:
+  # Запуск по расписанию
+  schedule:
+    # Запускаем каждые 6 часов. 
+    # (Не ставь слишком часто, иначе серверы Nitter/Sotwe забанят IP-адреса GitHub)
+    - cron: '0 */6 * * *'
+  
+  # Позволяет запускать скрипт вручную по кнопке из интерфейса GitHub
+  workflow_dispatch: 
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # 1. Скачиваем текущий код репозитория
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # 2. Устанавливаем Python
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      # 3. Запускаем наш парсер (зависимостей нет, поэтому pip install не нужен)
+      - name: Run Python Scraper
+        run: python scraper.py
+
+      # 4. Проверяем изменения, коммитим и пушим обратно в репозиторий
+      - name: Commit and Push changes
+        run: |
+          # Настраиваем Git от имени бота GitHub Actions
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          # Добавляем обновленный файл
+          git add feed.json
+          
+          # Коммитим только если есть изменения. [skip ci] предотвращает бесконечные циклы запусков
+          git commit -m "🤖 Auto-update feed.json [skip ci]" || echo "No new posts to update."
+          
+          # Пушим изменения в ветку main (если у тебя ветка master, замени origin main на origin master)
+          git push origin main
