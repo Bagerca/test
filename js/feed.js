@@ -117,7 +117,7 @@ export class FeedManager {
                 rtBadge.style.display = 'flex'; // Показываем плашку
             }
             
-            // --- УБИРАЕМ СЛОВО "Gif" ЕСЛИ ОНО ЕДИНСТВЕННОЕ В ТЕКСТЕ ---
+            // --- УБИРАЕМ СЛОВО "Gif" ---
             if (contentToParse.trim().toLowerCase() === 'gif') {
                 contentToParse = '';
             }
@@ -125,6 +125,42 @@ export class FeedManager {
 
             // Рендерим очищенный текст
             clone.querySelector('.post-text').innerHTML = formatRichText(contentToParse);
+            
+            // --- КНОПКИ ДЕЙСТВИЙ (Копировать / Перевести) ---
+            const rawTextForActions = contentToParse.trim();
+            const postActionsBlock = clone.querySelector('.post-actions');
+            
+            if (rawTextForActions.length > 0) {
+                const copyBtn = clone.querySelector('.copy-btn');
+                const translateBtn = clone.querySelector('.translate-btn');
+
+                // 1. Ссылка на Google Translate
+                translateBtn.href = `https://translate.google.com/?sl=en&tl=ru&text=${encodeURIComponent(rawTextForActions)}&op=translate`;
+
+                // 2. Логика копирования
+                copyBtn.addEventListener('click', async () => {
+                    try {
+                        await navigator.clipboard.writeText(rawTextForActions);
+                        
+                        // Анимация успеха (меняем иконку на зеленую галочку)
+                        const originalHTML = copyBtn.innerHTML;
+                        copyBtn.classList.add('success');
+                        copyBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+                        
+                        // Возвращаем как было через 2 секунды
+                        setTimeout(() => {
+                            copyBtn.classList.remove('success');
+                            copyBtn.innerHTML = originalHTML;
+                        }, 2000);
+                    } catch (err) {
+                        console.error('Не удалось скопировать текст: ', err);
+                    }
+                });
+            } else {
+                // Если текста нет (пост состоит только из картинки/гифки), прячем кнопки
+                postActionsBlock.style.display = 'none';
+            }
+            // ------------------------------------------------
             
             const badgeEl = clone.querySelector('.post-platform-badge');
             if (post.platform) badgeEl.textContent = post.platform;
@@ -162,7 +198,6 @@ export class FeedManager {
 
             // --- ОБРАБОТКА МЕДИА (Картинки vs Видео/GIF) ---
             if (post.mediaUrl && post.mediaUrl !== 'null') {
-                // Проверяем, это видео/гифка (.mp4) или картинка
                 const isVideo = post.mediaUrl.match(/\.(mp4|m3u8|webm)/i) || post.mediaUrl.includes('/video/');
                 
                 if (isVideo) {

@@ -140,9 +140,52 @@
     opacity: 0.9;
 }
 
+/* ==========================================================================
+   Подвал поста и Кнопки действий (Копировать/Перевести)
+   ========================================================================== */
 .post-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     font-size: 0.85rem;
     color: var(--text-muted);
     border-top: 1px solid var(--border-color);
     padding-top: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+.post-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 0.4rem 0.6rem;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+    background-color: var(--bg-body);
+    color: var(--accent-color);
+}
+
+.action-btn.success {
+    color: #00BA7C;
+}
+
+.action-btn svg {
+    flex-shrink: 0;
 }
