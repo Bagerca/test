@@ -1,0 +1,175 @@
+/* ==========================================================================
+   Базовые переменные и сброс (Bendy Theme)
+   ========================================================================== */
+   :root {
+    --color-ink: #111111;
+    --color-paper: #E8D5A6;
+    --color-paper-light: #F4E7C3;
+    --color-accent: #8A6D3B;
+    
+    --font-primary: 'Special Elite', cursive, monospace;
+    --font-secondary: system-ui, -apple-system, sans-serif;
+    
+    --border-ink: 2px solid var(--color-ink);
+    --shadow-ink: 4px 4px 0px var(--color-ink);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-secondary);
+    line-height: 1.6;
+    background-image: radial-gradient(var(--color-accent) 1px, transparent 1px);
+    background-size: 20px 20px;
+    background-color: var(--color-paper);
+}
+
+/* ==========================================================================
+   Шапка сайта
+   ========================================================================== */
+.site-header {
+    background-color: var(--color-ink);
+    color: var(--color-paper);
+    padding: 2rem 1rem;
+    text-align: center;
+    border-bottom: 4px solid var(--color-accent);
+}
+
+.site-header h1 {
+    font-family: var(--font-primary);
+    font-size: 2.5rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.site-header p {
+    font-family: var(--font-primary);
+    opacity: 0.8;
+    margin-top: 0.5rem;
+}
+
+/* ==========================================================================
+   Лента постов (Контейнер)
+   ========================================================================== */
+.feed-container {
+    max-width: 680px; /* Оптимальная ширина для чтения текста */
+    margin: 2rem auto;
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.loading-state {
+    text-align: center;
+    font-family: var(--font-primary);
+    font-size: 1.5rem;
+    padding: 3rem;
+    animation: pulse 1.5s infinite alternate;
+}
+
+@keyframes pulse {
+    from { opacity: 0.5; transform: scale(0.98); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* ==========================================================================
+   Карточка поста
+   ========================================================================== */
+.post-card {
+    background-color: var(--color-paper-light);
+    border: var(--border-ink);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-ink);
+    transition: transform 0.2s ease;
+}
+
+.post-card:hover {
+    transform: translateY(-2px);
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    gap: 1rem;
+}
+
+.post-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: var(--border-ink);
+    object-fit: cover;
+    background-color: var(--color-ink); /* Заглушка, пока грузится картинка */
+}
+
+.post-meta {
+    flex-grow: 1;
+}
+
+.post-author-name {
+    font-family: var(--font-primary);
+    font-size: 1.2rem;
+    margin-bottom: 0.1rem;
+}
+
+.post-author-handle {
+    color: var(--color-accent);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.post-author-handle:hover {
+    text-decoration: underline;
+}
+
+.post-content {
+    margin-bottom: 1rem;
+}
+
+.post-text {
+    font-size: 1rem;
+    white-space: pre-wrap; /* Сохраняет переносы строк из Твиттера */
+}
+
+.post-media {
+    width: 100%;
+    margin-top: 1rem;
+    border-radius: 4px;
+    border: var(--border-ink);
+    height: auto;
+}
+
+.post-footer {
+    border-top: 1px dashed var(--color-accent);
+    padding-top: 0.8rem;
+    font-size: 0.85rem;
+    color: #555;
+}
+
+/* ==========================================================================
+   Адаптивность (Mobile)
+   ========================================================================== */
+@media (max-width: 480px) {
+    .site-header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .post-card {
+        padding: 1rem;
+    }
+    
+    .post-avatar {
+        width: 40px;
+        height: 40px;
+    }
+}

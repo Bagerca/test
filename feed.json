@@ -1,0 +1,22 @@
+[
+  {
+    "id": "12345",
+    "authorName": "theMeatly",
+    "authorHandle": "@themeatly",
+    "platform": "twitter",
+    "content": "Just had an amazing meeting about the future of the Ink Demon. You guys are NOT ready for what is coming! 🖋️😈 #Bendy #JoeyDrewStudios",
+    "timestamp": "2023-10-25T14:30:00Z",
+    "mediaUrl": null,
+    "avatarUrl": "https://pbs.twimg.com/profile_images/1589718445778845696/n8T21yH-_400x400.jpg"
+  },
+  {
+    "id": "12346",
+    "authorName": "Joey Drew Studios",
+    "authorHandle": "@JoeyDrewSTU",
+    "platform": "twitter",
+    "content": "Return to the studio. Secrets of the Machine is updated! Explore new illusions.",
+    "timestamp": "2023-10-24T18:00:00Z",
+    "mediaUrl": "https://pbs.twimg.com/media/F9Q-XXXXXX.jpg",
+    "avatarUrl": "https://pbs.twimg.com/profile_images/1589700000000000000/avatar_400x400.jpg"
+  }
+]

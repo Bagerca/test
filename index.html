@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bendy Dev Feed | Архивы Студии Джоуи Дрю</title>
+    
+    <!-- Подключаем винтажный шрифт для атмосферы -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="header-content">
+            <h1>Архивы Разработчиков</h1>
+            <p>Последние новости из глубин чернильной машины</p>
+        </div>
+    </header>
+
+    <main>
+        <!-- Сюда JS будет вставлять посты -->
+        <section id="feed-container" class="feed-container" aria-live="polite">
+            <div id="loading-spinner" class="loading-state">
+                Запуск шестеренок... ⚙️
+            </div>
+        </section>
+    </main>
+
+    <!-- Шаблон поста. Он невидим, JS использует его для клонирования -->
+    <template id="post-template">
+        <article class="post-card">
+            <header class="post-header">
+                <img src="" alt="Avatar" class="post-avatar">
+                <div class="post-meta">
+                    <h2 class="post-author-name"></h2>
+                    <a href="#" class="post-author-handle" target="_blank" rel="noopener noreferrer"></a>
+                </div>
+                <div class="post-platform-icon">
+                    <!-- Иконка платформы (X/Twitter, YouTube) будет подставляться через CSS класс -->
+                </div>
+            </header>
+            
+            <div class="post-content">
+                <p class="post-text"></p>
+                <!-- Контейнер для картинок (по умолчанию скрыт) -->
+                <img src="" alt="Post media" class="post-media" style="display: none;">
+            </div>
+            
+            <footer class="post-footer">
+                <time class="post-date" datetime=""></time>
+            </footer>
+        </article>
+    </template>
+
+    <script src="app.js"></script>
+</body>
+</html>
