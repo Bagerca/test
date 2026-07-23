@@ -1,3 +1,6 @@
+/* ==========================================================================
+   Карточка поста
+   ========================================================================== */
 .post-card {
     background-color: var(--bg-card);
     border: 1px solid var(--border-color);
@@ -67,6 +70,38 @@
     text-transform: capitalize;
 }
 
+/* ==========================================================================
+   Ретвиты (RT Badge)
+   ========================================================================== */
+.rt-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 0.6rem;
+    font-weight: 500;
+}
+
+.rt-badge svg {
+    color: #00BA7C; /* Фирменный зеленый цвет ретвита */
+}
+
+.rt-badge a {
+    color: var(--text-main);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.rt-badge a:hover {
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+
+/* ==========================================================================
+   Rich Text & Content
+   ========================================================================== */
 .post-content {
     margin-bottom: 1rem;
 }

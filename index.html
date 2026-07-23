@@ -6,6 +6,7 @@
     <title>Bendy Dev Feed | Development</title>
     <link rel="stylesheet" href="style.css">
     <script>
+        // Применяем тему до загрузки DOM во избежание белой вспышки
         const savedTheme = localStorage.getItem('bendy-theme') || 'dark';
         document.documentElement.setAttribute('data-theme', savedTheme);
     </script>
@@ -28,11 +29,10 @@
     <main>
         <section class="feed-container">
             
-            <!-- ОБНОВЛЕННАЯ ПАНЕЛЬ ФИЛЬТРОВ -->
+            <!-- ПАНЕЛЬ УПРАВЛЕНИЯ (Поиск и Кастомный селект с аватарками) -->
             <div class="feed-controls">
                 <input type="text" id="search-input" placeholder="🔍 Поиск по твитам..." aria-label="Поиск">
                 
-                <!-- Кастомный селект -->
                 <div class="custom-select-container" id="author-filter-container">
                     <button class="custom-select-trigger" aria-haspopup="listbox" aria-expanded="false">
                         <div class="custom-select-value">
@@ -50,10 +50,12 @@
                 </div>
             </div>
 
+            <!-- КОНТЕЙНЕР ЛЕНТЫ -->
             <div id="feed-content" aria-live="polite">
                 <!-- Контент генерируется через JS -->
             </div>
             
+            <!-- ИНДИКАТОР БЕСКОНЕЧНОГО СКРОЛЛА -->
             <div id="scroll-sentinel" class="scroll-sentinel">
                 <div class="spinner"></div>
                 <span>Загрузка...</span>
@@ -62,11 +64,13 @@
         </section>
     </main>
 
+    <!-- ЛАЙТБОКС (Галерея изображений) -->
     <div id="lightbox" class="lightbox">
         <button class="lightbox-close" aria-label="Закрыть">&times;</button>
         <img id="lightbox-img" src="" alt="Full image">
     </div>
 
+    <!-- ШАБЛОН ПОСТА -->
     <template id="post-template">
         <article class="post-card">
             <header class="post-header">
@@ -79,8 +83,18 @@
             </header>
             
             <div class="post-content">
+                <!-- Плашка ретвита (по умолчанию скрыта) -->
+                <div class="rt-badge" style="display: none;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>
+                    <span>Оригинал: <a class="rt-author" target="_blank" rel="noopener noreferrer"></a></span>
+                </div>
+                
                 <p class="post-text"></p>
-                <img src="" alt="Вложение поста" class="post-media" loading="lazy" style="display: none;" title="Нажмите для увеличения">
+                
+                <!-- Тег для обычных картинок -->
+                <img src="" alt="Вложение поста" class="post-media img-media" loading="lazy" style="display: none;" title="Нажмите для увеличения">
+                <!-- Новый тег для GIF / Видео -->
+                <video class="post-media video-media" autoplay loop muted playsinline style="display: none;"></video>
             </div>
             
             <footer class="post-footer">
@@ -89,6 +103,7 @@
         </article>
     </template>
 
+    <!-- Точка входа для скриптов -->
     <script type="module" src="js/app.js"></script>
 </body>
 </html>

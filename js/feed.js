@@ -53,7 +53,7 @@ export class FeedManager {
         // Настройка Intersection Observer для бесконечного скролла
         const options = {
             root: null,
-            rootMargin: '200px', // Начинать загрузку за 200px до конца
+            rootMargin: '200px', // Начинать загрузку за 200px до конца ленты
             threshold: 0
         };
 
@@ -98,7 +98,33 @@ export class FeedManager {
             const clone = this.template.content.cloneNode(true);
             
             clone.querySelector('.post-author-name').textContent = post.authorName;
-            clone.querySelector('.post-text').innerHTML = formatRichText(post.content);
+            
+            // --- ОБРАБОТКА РЕТВИТОВ ---
+            const rtBadge = clone.querySelector('.rt-badge');
+            const rtAuthorLink = clone.querySelector('.rt-author');
+            let contentToParse = post.content;
+
+            // Регулярка ищет паттерны: "RT @name:" или "RT by @name:"
+            const rtRegex = /^RT\s+(?:by\s+)?(@[\w_]+)[\s:]+([\s\S]*)$/i;
+            const rtMatch = post.content.match(rtRegex);
+
+            if (rtMatch) {
+                const originalAuthor = rtMatch[1]; // Извлекаем @никнейм
+                contentToParse = rtMatch[2].trim(); // Забираем только сам текст поста
+
+                rtAuthorLink.textContent = originalAuthor;
+                rtAuthorLink.href = `https://twitter.com/${originalAuthor.replace('@', '')}`;
+                rtBadge.style.display = 'flex'; // Показываем плашку
+            }
+            
+            // --- УБИРАЕМ СЛОВО "Gif" ЕСЛИ ОНО ЕДИНСТВЕННОЕ В ТЕКСТЕ ---
+            if (contentToParse.trim().toLowerCase() === 'gif') {
+                contentToParse = '';
+            }
+            // --------------------------
+
+            // Рендерим очищенный текст
+            clone.querySelector('.post-text').innerHTML = formatRichText(contentToParse);
             
             const badgeEl = clone.querySelector('.post-platform-badge');
             if (post.platform) badgeEl.textContent = post.platform;
@@ -134,12 +160,22 @@ export class FeedManager {
                 dateEl.setAttribute('datetime', post.timestamp);
             }
 
-            const mediaEl = clone.querySelector('.post-media');
+            // --- ОБРАБОТКА МЕДИА (Картинки vs Видео/GIF) ---
             if (post.mediaUrl && post.mediaUrl !== 'null') {
-                mediaEl.src = post.mediaUrl;
-                mediaEl.style.display = 'block';
-                mediaEl.addEventListener('click', () => this.lightboxManager.open(post.mediaUrl));
-                mediaEl.onerror = () => { mediaEl.style.display = 'none'; };
+                // Проверяем, это видео/гифка (.mp4) или картинка
+                const isVideo = post.mediaUrl.match(/\.(mp4|m3u8|webm)/i) || post.mediaUrl.includes('/video/');
+                
+                if (isVideo) {
+                    const videoEl = clone.querySelector('.video-media');
+                    videoEl.src = post.mediaUrl;
+                    videoEl.style.display = 'block';
+                } else {
+                    const imgEl = clone.querySelector('.img-media');
+                    imgEl.src = post.mediaUrl;
+                    imgEl.style.display = 'block';
+                    imgEl.addEventListener('click', () => this.lightboxManager.open(post.mediaUrl));
+                    imgEl.onerror = () => { imgEl.style.display = 'none'; };
+                }
             }
 
             return clone;

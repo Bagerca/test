@@ -17,7 +17,7 @@ class TwitterUltimateMonitor:
         self.handles = handles
         self.output_file = "feed.json"
         self.tmp_file = "feed.json.tmp"
-        self.max_history = 1000 # Храним максимум 1000 последних постов
+        self.max_history = 1000
         
         self.headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
@@ -40,7 +40,7 @@ class TwitterUltimateMonitor:
                 clean_date = f"{parts[1]} {parts[2]} {parts[3]} {parts[5]}" 
                 dt = datetime.strptime(clean_date, "%b %d %H:%M:%S %Y")
                 return dt.isoformat() + "Z"
-        except Exception as e:
+        except Exception:
             pass
             
         return date_str 
@@ -55,9 +55,28 @@ class TwitterUltimateMonitor:
             logging.error(f"Не удалось прочитать существующий feed.json: {e}")
             return []
 
-    # =========================================================================
-    # TIER 1: Sotwe API 
-    # =========================================================================
+    # --- УМНЫЙ ЭКСТРАКТОР МЕДИА (Изображения, Гифки, Видео) ---
+    def extract_media(self, tweet_obj: dict) -> str:
+        entities = tweet_obj.get('entities', {})
+        extended = tweet_obj.get('extended_entities', {})
+        media_list = extended.get('media', entities.get('media', []))
+        
+        if not media_list:
+            return None
+            
+        m = media_list[0]
+        # Если это GIF или Видео, ищем mp4
+        if m.get('type') in ['video', 'animated_gif'] and 'video_info' in m:
+            variants = m['video_info'].get('variants', [])
+            mp4_variants = [v for v in variants if v.get('content_type') == 'video/mp4']
+            if mp4_variants:
+                # Берем mp4 файл с максимальным битрейтом
+                best_variant = max(mp4_variants, key=lambda x: x.get('bitrate', 0))
+                return best_variant.get('url')
+                
+        # Фолбэк на обычную картинку
+        return m.get('media_url_https')
+
     def fetch_via_sotwe(self, handle: str) -> List[Dict]:
         url = f"https://api.sotwe.com/v3/user/{handle}"
         posts = []
@@ -87,10 +106,7 @@ class TwitterUltimateMonitor:
                     else:
                         iso_date = self.parse_twitter_date(created_at)
                         
-                    media_url = None
-                    entities = t.get('entities', {})
-                    if 'media' in entities and entities['media']:
-                        media_url = entities['media'][0].get('media_url_https')
+                    media_url = self.extract_media(t)
                         
                     posts.append({
                         "id": str(t.get('id', '')),
@@ -103,15 +119,12 @@ class TwitterUltimateMonitor:
                         "avatarUrl": avatar
                     })
         except urllib.error.HTTPError as e:
-            logging.warning(f"[Tier 1 Sotwe] Заблокировано (HTTP {e.code}) для @{handle}")
+            logging.warning(f"[Sotwe] Заблокировано (HTTP {e.code}) для @{handle}")
         except Exception as e:
-            logging.warning(f"[Tier 1 Sotwe] Ошибка для @{handle}: {e}")
+            logging.warning(f"[Sotwe] Ошибка для @{handle}: {e}")
             
         return posts
 
-    # =========================================================================
-    # TIER 2: Syndication API (Twitter Widget)
-    # =========================================================================
     def fetch_via_syndication(self, handle: str) -> List[Dict]:
         url = f"https://syndication.twitter.com/srv/timeline-profile/screen-name/{handle}"
         posts = []
@@ -125,7 +138,6 @@ class TwitterUltimateMonitor:
                 match = re.search(r'<script id="__NEXT_DATA__" type="application/json">({.*?})</script>', html_data)
                 
                 if not match: 
-                    logging.warning(f"[Tier 2 Synd] Структура страницы изменена, JSON не найден для @{handle}")
                     return posts
                     
                 data = json.loads(match.group(1))
@@ -140,12 +152,7 @@ class TwitterUltimateMonitor:
                     if author.get('screen_name', '').lower() != handle.lower(): 
                         continue
                         
-                    media_url = None
-                    if 'entities' in tweet and 'media' in tweet['entities']:
-                        media_list = tweet['entities']['media']
-                        if media_list: 
-                            media_url = media_list[0].get('media_url_https')
-
+                    media_url = self.extract_media(tweet)
                     iso_date = self.parse_twitter_date(tweet.get('created_at', ''))
 
                     posts.append({
@@ -158,24 +165,13 @@ class TwitterUltimateMonitor:
                         "mediaUrl": media_url,
                         "avatarUrl": author.get('profile_image_url_https', '').replace('_normal', '_400x400')
                     })
-        except urllib.error.HTTPError as e:
-            logging.warning(f"[Tier 2 Synd] Заблокировано (HTTP {e.code}) для @{handle}")
-        except Exception as e:
-            logging.warning(f"[Tier 2 Synd] Ошибка для @{handle}: {e}")
+        except Exception:
+            pass
             
         return posts
 
-    # =========================================================================
-    # TIER 3: Nitter RSS Network (Самый надежный фоллбэк)
-    # =========================================================================
     def fetch_via_nitter(self, handle: str) -> List[Dict]:
-        instances = [
-            "nitter.poast.org",
-            "nitter.privacydev.net",
-            "nitter.cz",
-            "nitter.projectsegfau.lt",
-            "nitter.net"
-        ]
+        instances = ["nitter.poast.org", "nitter.privacydev.net", "nitter.cz", "nitter.net"]
         posts = []
         for instance in instances:
             url = f"https://{instance}/{handle}/rss"
@@ -187,12 +183,8 @@ class TwitterUltimateMonitor:
                     xml_data = response.read().decode('utf-8')
                     root = ET.fromstring(xml_data)
                     channel = root.find('channel')
+                    if channel is None: continue
                     
-                    # Исправление DeprecationWarning (XML Element truth value)
-                    if channel is None: 
-                        continue
-                    
-                    # Ищем аватарку пользователя в шапке RSS
                     avatar_url = ""
                     image_tag = channel.find('image')
                     if image_tag is not None:
@@ -210,14 +202,21 @@ class TwitterUltimateMonitor:
                         date_str = pubDate.text if pubDate is not None else ""
                         post_id = guid.text.split('/')[-1].replace('#m', '') if (guid is not None and guid.text) else ""
                         
-                        # Парсим картинки из описания (Nitter встраивает их в HTML description)
                         media_url = None
                         if desc is not None and desc.text:
-                            img_match = re.search(r'<img[^>]+src="([^">]+)"', desc.text)
-                            if img_match:
-                                media_url = f"https://{instance}{img_match.group(1)}" if img_match.group(1).startswith('/') else img_match.group(1)
+                            # Ищем видео/gif (.mp4)
+                            vid_match = re.search(r'<source[^>]+src="([^">]+\.mp4)"', desc.text)
+                            if vid_match:
+                                media_url = vid_match.group(1)
+                            else:
+                                # Иначе ищем картинку
+                                img_match = re.search(r'<img[^>]+src="([^">]+)"', desc.text)
+                                if img_match:
+                                    media_url = img_match.group(1)
+                                    
+                            if media_url and media_url.startswith('/'):
+                                media_url = f"https://{instance}{media_url}"
                         
-                        # Очистка даты: "Thu, 15 Nov 2023 14:00:00 GMT" -> "Thu, 15 Nov 2023 14:00:00"
                         clean_date = date_str.replace(" GMT", "").replace(" +0000", "")
                         try:
                             dt = datetime.strptime(clean_date, "%a, %d %b %Y %H:%M:%S")
@@ -235,60 +234,33 @@ class TwitterUltimateMonitor:
                             "mediaUrl": media_url,
                             "avatarUrl": avatar_url
                         })
-                        
                 if posts:
                     logging.info(f"🟢 Tier 3 (Nitter: {instance}) Успех! Получено: {len(posts)}")
-                    return posts # Успех - прерываем цикл по инстансам
-            except Exception as e:
-                logging.debug(f"[Nitter {instance}] Пропущен для @{handle}: {e}")
-                continue # Если этот сервер мертв, пробуем следующий
-                
-        if not posts:
-            logging.warning(f"[Tier 3 Nitter] Все резервные серверы недоступны для @{handle}")
-            
+                    return posts 
+            except Exception:
+                continue
         return posts
 
-    # =========================================================================
-    # Оркестрация и сохранение
-    # =========================================================================
     def run(self):
         existing_posts = self.load_existing_feed()
         logging.info(f"Загружено постов из кэша: {len(existing_posts)}")
-        
         all_fetched_posts = []
         
         for handle in self.handles:
             logging.info(f"Сбор данных: @{handle}...")
-            
-            # Пытаемся собрать данные из всех источников
-            sotwe_posts = self.fetch_via_sotwe(handle)
-            synd_posts = self.fetch_via_syndication(handle)
-            nitter_posts = self.fetch_via_nitter(handle)
-            
-            combined = sotwe_posts + synd_posts + nitter_posts
-            
-            if not combined:
-                logging.warning(f"⚠️ Тотальная блокировка. Не удалось получить данные для @{handle}. Будет использован кэш.")
-            else:
-                logging.info(f"✅ @{handle}: Собрано новых записей (с учетом дублей): {len(combined)}")
-                
+            combined = self.fetch_via_sotwe(handle) + self.fetch_via_syndication(handle) + self.fetch_via_nitter(handle)
             all_fetched_posts.extend(combined)
             
-        # Умное слияние: новые посты заменят старые по ключу ID
         merged_dict = {post['id']: post for post in existing_posts}
         for post in all_fetched_posts:
-            if post['id']: # Защита от пустых ID
+            if post['id']:
                 merged_dict[post['id']] = post
 
         final_posts = list(merged_dict.values())
         self.save_feed_atomically(final_posts)
 
     def save_feed_atomically(self, posts: List[Dict]):
-        if not posts:
-            logging.warning("Нет данных для сохранения.")
-            return
-            
-        # Жесткая сортировка по убыванию времени
+        if not posts: return
         posts.sort(key=lambda x: x['timestamp'], reverse=True)
         posts = posts[:self.max_history]
         
@@ -296,17 +268,11 @@ class TwitterUltimateMonitor:
             with open(self.tmp_file, 'w', encoding='utf-8') as f:
                 json.dump(posts, f, ensure_ascii=False, indent=2)
             os.replace(self.tmp_file, self.output_file)
-            logging.info(f"🎉 База обновлена и отсортирована! Всего уникальных постов: {len(posts)}")
+            logging.info(f"🎉 База обновлена! Всего уникальных постов: {len(posts)}")
         except Exception as e:
-            logging.error(f"Ошибка при сохранении: {e}")
             if os.path.exists(self.tmp_file): os.remove(self.tmp_file)
 
 if __name__ == "__main__":
-    devs = [
-        "m_ZeroLogics", 
-        "BLacroix30", 
-        "bookpast", 
-        "themeatly"
-    ] 
+    devs = ["m_ZeroLogics", "BLacroix30", "bookpast", "themeatly"] 
     monitor = TwitterUltimateMonitor(devs)
     monitor.run()
