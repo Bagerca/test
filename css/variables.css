@@ -1,0 +1,33 @@
+:root {
+    /* Светлая тема (По умолчанию) */
+    color-scheme: light;
+    --bg-body: #F0F2F5;
+    --bg-card: #FFFFFF;
+    --text-main: #1C1E21;
+    --text-muted: #65676B;
+    --border-color: #E4E6EB;
+    --accent-color: #0064D1;
+    --accent-hover: #0052a3;
+    --error-color: #D32F2F;
+    --error-bg: #FDECEA;
+    --skeleton-bg: #E4E6EB;
+    --skeleton-wave: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+    
+    --font-system: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+[data-theme="dark"] {
+    /* Темная тема (Чернильная стилистика Bendy) */
+    color-scheme: dark;
+    --bg-body: #111418;
+    --bg-card: #1C2128;
+    --text-main: #E1E4E8;
+    --text-muted: #8B949E;
+    --border-color: #30363D;
+    --accent-color: #D2A850;
+    --accent-hover: #E8C370;
+    --error-color: #F85149;
+    --error-bg: #321C1D;
+    --skeleton-bg: #2D333B;
+    --skeleton-wave: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+}
