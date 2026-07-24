@@ -278,3 +278,64 @@
     max-width: 300px;
     line-height: 1.5;
 }
+
+/* Файл: pages/feed/feed.css (Обновить секцию поиска и добавить подсветку) */
+
+/* Кнопка поиска внутри инпута */
+.search-btn {
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    z-index: 2;
+}
+
+.search-btn:hover {
+    color: var(--accent-color);
+    background-color: var(--bg-body);
+}
+
+.search-input-wrapper:focus-within .search-btn {
+    color: var(--accent-color);
+}
+
+.feed-controls input {
+    width: 100%;
+    padding: 0.7rem 1rem 0.7rem 2.8rem; /* Увеличен отступ для кнопки */
+    border: 1px solid var(--border-color); 
+    border-radius: 8px;
+    background-color: var(--bg-body); 
+    color: var(--text-main);
+    font-family: inherit;
+    font-size: 0.95rem;
+    outline: none; 
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.feed-controls input:focus {
+    border-color: var(--accent-color);
+    background-color: var(--bg-card);
+    box-shadow: 0 0 0 3px rgba(210, 168, 80, 0.15);
+}
+
+/* =====================
+   ПОДСВЕТКА НАЙДЕННОГО ТЕКСТА
+===================== */
+.search-highlight {
+    background-color: rgba(210, 168, 80, 0.3); /* Фирменный золотой с прозрачностью */
+    color: var(--accent-color);
+    padding: 0 2px;
+    border-radius: 4px;
+    font-weight: 700;
+    box-shadow: 0 0 0 1px rgba(210, 168, 80, 0.5);
+}

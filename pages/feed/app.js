@@ -1,13 +1,11 @@
 // Файл: pages/feed/app.js
 import { SiteHeader } from '../../shared/js/components/SiteHeader.js';
 import { fetchData } from '../../shared/js/api.js';
-import { debounce } from '../../shared/js/utils.js';
 import { LightboxManager } from '../../shared/js/Lightbox.js';
 import { PostRenderer } from './PostRenderer.js';
 import { FeedManager } from './FeedManager.js';
 import { CustomSelect } from './CustomSelect.js';
 
-// Регистрируем веб-компонент шапки
 customElements.define('site-header', SiteHeader);
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -18,11 +16,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     const feed = new FeedManager('feed-content', 'scroll-sentinel', renderer);
 
     const searchInput = document.getElementById('search-input');
+    const searchBtn = document.getElementById('search-btn');
     let currentSelectedAuthor = 'all';
+
+    const executeSearch = () => {
+        feed.applyFilters(searchInput.value, currentSelectedAuthor);
+    };
 
     const authorSelect = new CustomSelect('author-filter-container', (selected) => {
         currentSelectedAuthor = selected;
-        feed.applyFilters(searchInput.value, currentSelectedAuthor);
+        executeSearch(); // При смене автора фильтруем сразу
     });
 
     try {
@@ -36,10 +39,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         authorSelect.populate(uniqueAuthors);
         feed.setPosts(data);
 
-        // УВЕЛИЧЕН DEBOUNCE ДО 500мс для более плавного UX
-        searchInput.addEventListener('input', debounce(() => {
-            feed.applyFilters(searchInput.value, currentSelectedAuthor);
-        }, 500));
+        // Поиск по нажатию Enter
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                executeSearch();
+            }
+        });
+
+        // Поиск по клику на лупу
+        searchBtn.addEventListener('click', () => {
+            executeSearch();
+        });
 
     } catch (error) {
         feed.showError('Не удалось загрузить ленту. База данных недоступна.');

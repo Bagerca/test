@@ -9,6 +9,7 @@ export class FeedManager {
         this.filteredPosts = [];
         this.chunkSize = 20;
         this.currentIndex = 0;
+        this.currentSearchTerm = ''; // Сохраняем текущее слово
 
         this.initObserver();
     }
@@ -19,7 +20,9 @@ export class FeedManager {
     }
 
     applyFilters(searchTerm, selectedAuthor) {
-        const term = searchTerm.toLowerCase().trim();
+        this.currentSearchTerm = searchTerm.trim(); // Запоминаем для подсветки
+        const term = this.currentSearchTerm.toLowerCase();
+        
         this.filteredPosts = this.allPosts.filter(post => {
             const matchAuthor = selectedAuthor === 'all' || post.authorHandle === selectedAuthor;
             const matchSearch = term === '' || post.content.toLowerCase().includes(term) || post.authorName.toLowerCase().includes(term);
@@ -29,7 +32,6 @@ export class FeedManager {
         this.container.innerHTML = '';
         this.currentIndex = 0;
 
-        // КРАСИВОЕ СОСТОЯНИЕ "НИЧЕГО НЕ НАЙДЕНО"
         if (this.filteredPosts.length === 0) {
             this.container.innerHTML = `
                 <div class="empty-state">
@@ -42,7 +44,7 @@ export class FeedManager {
                         </svg>
                     </div>
                     <h3 class="empty-state-title">Ничего не найдено</h3>
-                    <p class="empty-state-desc">Попробуйте изменить поисковой запрос или выбрать другого автора.</p>
+                    <p class="empty-state-desc">По запросу «${this.currentSearchTerm}» ничего нет. Попробуйте изменить запрос.</p>
                 </div>
             `;
             this.sentinel.classList.remove('active');
@@ -70,7 +72,8 @@ export class FeedManager {
         const fragment = document.createDocumentFragment();
 
         chunk.forEach(post => {
-            const el = this.renderer.render(post);
+            // Передаем искомое слово в рендерер!
+            const el = this.renderer.render(post, this.currentSearchTerm);
             if (el) fragment.appendChild(el);
         });
 

@@ -1,3 +1,4 @@
+// Файл: pages/feed/PostRenderer.js
 import { formatRichText } from '../../shared/js/utils.js';
 import { translateTextApi } from '../../shared/js/api.js';
 import { Logger } from '../../shared/js/Logger.js';
@@ -9,13 +10,25 @@ export class PostRenderer {
         this.fallbackAvatar = 'data:image/svg+xml;charset=UTF-8,%3Csvg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="%2365676B" stroke-width="2"%3E%3Cpath d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/%3E%3Ccircle cx="12" cy="7" r="4"/%3E%3C/svg%3E';
     }
 
-    render(post) {
+    // Экранирование для Regex
+    escapeRegExp(string) {
+        return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
+    // Умная подсветка текста
+    highlightText(html, searchTerm) {
+        if (!searchTerm) return html;
+        // Регулярка: ищет слово, ИГНОРИРУЯ всё, что находится внутри HTML тегов <...>
+        const regex = new RegExp(`(${this.escapeRegExp(searchTerm)})(?![^<]*>)`, 'gi');
+        return html.replace(regex, '<mark class="search-highlight">$1</mark>');
+    }
+
+    render(post, searchTerm = '') {
         try {
             const clone = this.template.content.cloneNode(true);
             
             clone.querySelector('.post-author-name').textContent = post.authorName;
             
-            // Обработка RT
             const rtBadge = clone.querySelector('.rt-badge');
             const rtAuthorLink = clone.querySelector('.rt-author');
             let contentToParse = post.content;
@@ -30,7 +43,11 @@ export class PostRenderer {
             
             if (contentToParse.trim().toLowerCase() === 'gif') contentToParse = '';
 
-            clone.querySelector('.post-text').innerHTML = formatRichText(contentToParse);
+            // 1. Форматируем ссылки/хэштеги. 2. Подсвечиваем искомое слово
+            let richHtml = formatRichText(contentToParse);
+            richHtml = this.highlightText(richHtml, searchTerm);
+            
+            clone.querySelector('.post-text').innerHTML = richHtml;
             
             this.setupActions(clone, contentToParse, post.id);
             this.setupMeta(clone, post);
@@ -94,7 +111,7 @@ export class PostRenderer {
                     translateTextEl.innerHTML = `<em>Ошибка перевода: сервис временно недоступен.</em>`;
                 }
                 translateTextEl.style.color = "var(--error-color)";
-                isTranslated = true; // Чтобы по второму клику блок скрывался
+                isTranslated = true; 
             }
         });
 
