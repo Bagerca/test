@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Библиотека Игр | Bendy Hub</title>
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    
+    <!-- Shared CSS -->
+    <link rel="stylesheet" href="shared/css/variables.css">
+    <link rel="stylesheet" href="shared/css/base.css">
+    <link rel="stylesheet" href="shared/css/layout.css">
+    <link rel="stylesheet" href="shared/css/ui.css">
+    
+    <!-- Page Specific CSS -->
+    <link rel="stylesheet" href="pages/library/library.css">
+    <link rel="stylesheet" href="pages/library/game-card.css">
+    <link rel="stylesheet" href="pages/library/game-modal.css">
+    
+    <script>
+        const savedTheme = localStorage.getItem('bendy-theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    </script>
+</head>
+<body>
+
+    <site-header active-page="library"></site-header>
+
+    <main class="page-content library-container">
+        <div id="games-loader" class="loading-state">
+            <div class="spinner" style="margin: 0 auto 10px;"></div>
+            <span>Загрузка архивов студии...</span>
+        </div>
+
+        <div class="games-grid" id="games-content" style="display: none;"></div>
+    </main>
+
+    <dialog id="lightbox" class="lightbox">
+        <button class="lightbox-close" aria-label="Закрыть">&times;</button>
+        <img id="lightbox-img" src="" alt="Full image">
+    </dialog>
+
+    <template id="game-card-template">
+        <article class="game-card">
+            <div class="game-cover-container">
+                <span class="game-status-badge"></span>
+                <img src="" alt="" class="game-cover-img" loading="lazy">
+                
+                <div class="game-cover-fallback">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="fallback-icon"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                </div>
+            </div>
+            <footer class="game-info">
+                <h3 class="game-title"></h3>
+                <time class="game-year"></time>
+            </footer>
+        </article>
+    </template>
+
+    <!-- ИММЕРСИВНАЯ МОДАЛКА ИГРЫ -->
+    <dialog id="game-modal" class="custom-modal game-detail-modal">
+        <!-- Задний размытый фон -->
+        <div id="modal-dynamic-bg" class="modal-dynamic-bg"></div>
+        <div class="modal-bg-overlay"></div>
+
+        <button class="modal-close" aria-label="Закрыть">&times;</button>
+        
+        <div class="modal-scroll-area">
+            
+            <div class="modal-top-section">
+                <!-- 1. Левая колонка -->
+                <aside class="modal-sidebar" id="modal-sidebar">
+                    <img id="modal-poster" class="modal-poster" src="" alt="Постер игры" style="display: none;">
+                    <div id="modal-links" class="modal-links" style="display: none;"></div>
+                </aside>
+
+                <!-- 2. Центральная колонка -->
+                <main class="modal-middle-content">
+                    <img id="modal-logo" class="modal-logo" src="" alt="Логотип игры" style="display: none;">
+                    <h2 id="modal-game-title" class="modal-game-title"></h2>
+                    
+                    <div class="modal-dev-info">
+                        <span id="modal-developer"></span>
+                    </div>
+
+                    <div class="modal-meta">
+                        <span id="modal-game-date" class="meta-tag"></span>
+                        <span id="modal-game-status" class="meta-tag status-tag"></span>
+                    </div>
+
+                    <div id="modal-tags" class="modal-tags"></div>
+
+                    <div id="modal-description" class="modal-description"></div>
+                </main>
+
+                <!-- 3. Правая колонка -->
+                <aside class="modal-right-content" id="modal-right-sidebar" style="display: none;">
+                    <div id="modal-requirements" class="modal-requirements">
+                        <div class="req-content"></div>
+                    </div>
+                </aside>
+            </div>
+
+            <!-- НИЖНЯЯ СЕКЦИЯ: Скриншоты -->
+            <div class="modal-bottom-section" id="modal-screenshots" style="display: none;">
+                <h4 class="section-title">Скриншоты</h4>
+                <div class="screenshots-grid"></div>
+            </div>
+
+        </div>
+    </dialog>
+
+    <script type="module" src="pages/library/app.js"></script>
+</body>
+</html>

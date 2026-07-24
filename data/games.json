@@ -1,0 +1,347 @@
+[
+    {
+        "id": "game_bendy_the_cage",
+        "steam_id": 2663960,
+        "title": "Bendy: The Cage",
+        "tier": "tier_indie",
+        "developer": "Joey Drew Studios",
+        "publisher": "Joey Drew Studios",
+        "release_date": "Скоро выйдет",
+        "tags": [
+            "Action",
+            "Horror",
+            "Cartoon",
+            "Adventure",
+            "Action-Adventure",
+            "Cartoony",
+            "Combat",
+            "Atmospheric",
+            "Indie",
+            "Psychological Horror",
+            "Hand-drawn",
+            "Story Rich",
+            "Survival Horror",
+            "RPG",
+            "Controller",
+            "Dark",
+            "Third Person",
+            "Action RPG",
+            "Mystery",
+            "Gore"
+        ],
+        "description": "Escape a twisted prison filled with the darkest experiments gone wrong, now set loose in the shadows to hunt you down. Unleash your deadly axe in this action psychological horror taking place during the events of Bendy and the Dark Revival®. Fight the madness.",
+        "specs": {
+            "minimum": "Минимальные: | 64-разрядные процессор и операционная система | ОС: Windows 10 (64 bit) | Оперативная память: 8 GB ОЗУ | Видеокарта: 2GB VRAM GeForce GTX 1030, AMD RX 550 | DirectX: версии 11 | Место на диске: 15 GB",
+            "recommended": "Рекомендованные: | 64-разрядные процессор и операционная система | ОС: Windows 10 (64 bit) | Оперативная память: 16 GB ОЗУ | Видеокарта: 8GB VRAM GeForce RTX 2080, AMD Radeon VII | DirectX: версии 12 | Место на диске: 15 GB"
+        },
+        "trailer": "",
+        "assets": {
+            "logo": "bendy_the_cage_logo.png",
+            "cover": "bendy_the_cage.jpg",
+            "banner": "bendy_the_cage_banner.jpg",
+            "screenshots": [
+                "bendy_the_cage_screen_1.jpg",
+                "bendy_the_cage_screen_2.jpg",
+                "bendy_the_cage_screen_3.jpg",
+                "bendy_the_cage_screen_4.jpg",
+                "bendy_the_cage_screen_5.jpg",
+                "bendy_the_cage_screen_6.jpg"
+            ]
+        }
+    },
+    {
+        "id": "game_bendy_and_the_ink_factory",
+        "steam_id": 2613150,
+        "title": "Bendy and the Ink Factory",
+        "tier": "tier_indie",
+        "developer": "Joey Drew Studios",
+        "publisher": "Joey Drew Studios",
+        "release_date": "Ещё не объявлена",
+        "tags": [
+            "Action",
+            "Adventure",
+            "Strategy",
+            "Horror",
+            "Exploration",
+            "Shooter",
+            "First-Person",
+            "3D",
+            "Atmospheric",
+            "Dark",
+            "Singleplayer",
+            "Survival Horror",
+            "Cartoon",
+            "Story Rich",
+            "Combat",
+            "Indie",
+            "Cartoony",
+            "Psychological Horror",
+            "Great Soundtrack"
+        ],
+        "description": "Bendy and the Ink Factory™ is a first-person survival horror. Return to the world of Joey Drew Studios like never before. The dark truth is hanging in the shadows... waiting to devour you. The rubberhose nightmare continues.. But eventually, everything must end.",
+        "specs": {
+            "minimum": "Минимальные: | 64-разрядные процессор и операционная система | ОС: Windows 10 (64 bit) | Оперативная память: 8 GB ОЗУ | Видеокарта: 2GB VRAM GeForce GTX 1030, AMD RX 550 | DirectX: версии 11 | Место на диске: 20 GB",
+            "recommended": "Рекомендованные: | 64-разрядные процессор и операционная система"
+        },
+        "trailer": "",
+        "assets": {
+            "logo": "bendy_and_the_ink_factory_logo.png",
+            "cover": "bendy_and_the_ink_factory.jpg",
+            "banner": "bendy_and_the_ink_factory_banner.jpg",
+            "screenshots": [
+                "bendy_and_the_ink_factory_screen_1.jpg",
+                "bendy_and_the_ink_factory_screen_2.jpg",
+                "bendy_and_the_ink_factory_screen_3.jpg"
+            ]
+        }
+    },
+    {
+        "id": "game_boris_and_the_dark_survival",
+        "steam_id": 1236990,
+        "title": "Boris and the Dark Survival",
+        "tier": "tier_indie",
+        "developer": "Joey Drew Studios",
+        "publisher": "Joey Drew Studios",
+        "release_date": "10 фев. 2020 г.",
+        "tags": [
+            "Action",
+            "Adventure",
+            "Indie",
+            "Horror",
+            "Strategy",
+            "Casual",
+            "Survival Horror",
+            "Survival",
+            "Singleplayer",
+            "Top-Down",
+            "Cartoony",
+            "Arcade",
+            "Roguelike",
+            "Dark",
+            "Action-Adventure",
+            "Atmospheric",
+            "Story Rich",
+            "Exploration",
+            "Third Person",
+            "Action Roguelike"
+        ],
+        "description": "A lone wolf struggles to survive the inky abyss of Joey Drew Studios in this top-down survival horror.",
+        "specs": {
+            "minimum": "Минимальные: | ОС *: Windows 7 and up | Процессор: i5 and up | Оперативная память: 4 GB ОЗУ | Видеокарта: GTX 770 and up | DirectX: версии 11 | Место на диске: 200 MB",
+            "recommended": ""
+        },
+        "trailer": "",
+        "assets": {
+            "logo": "boris_and_the_dark_survival_logo.png",
+            "cover": "boris_and_the_dark_survival.jpg",
+            "banner": "boris_and_the_dark_survival_banner.jpg",
+            "screenshots": [
+                "boris_and_the_dark_survival_screen_1.jpg",
+                "boris_and_the_dark_survival_screen_2.jpg",
+                "boris_and_the_dark_survival_screen_3.jpg",
+                "boris_and_the_dark_survival_screen_4.jpg",
+                "boris_and_the_dark_survival_screen_5.jpg",
+                "boris_and_the_dark_survival_screen_6.jpg"
+            ]
+        }
+    },
+    {
+        "id": "game_bendy_secrets_of_the_machine",
+        "steam_id": 622630,
+        "title": "Bendy: Secrets of the Machine",
+        "tier": "tier_indie",
+        "developer": "Gent Corporation",
+        "publisher": "Joey Drew Studios",
+        "release_date": "14 апр. 2024 г.",
+        "tags": [
+            "Adventure",
+            "Indie",
+            "Horror",
+            "Casual",
+            "Puzzle",
+            "Cartoony",
+            "First-Person",
+            "Interactive Fiction",
+            "Cartoon",
+            "Singleplayer",
+            "Walking Simulator",
+            "Action",
+            "Dark",
+            "Free to Play",
+            "Stylized",
+            "Story Rich",
+            "Multiplayer",
+            "Exploration",
+            "Mystery",
+            "Atmospheric"
+        ],
+        "description": "Some things are better left forgotten.",
+        "specs": {
+            "minimum": "Минимальные: | 64-разрядные процессор и операционная система | ОС: Windows 10 (64 bit) | Процессор: Intel Core i5 | Оперативная память: 8 GB ОЗУ | Видеокарта: Nvidia GeForce GTX 1060 | AMD RX 580 | DirectX: версии 11 | Место на диске: 2 GB",
+            "recommended": "Рекомендованные: | 64-разрядные процессор и операционная система"
+        },
+        "trailer": "",
+        "assets": {
+            "logo": "bendy_secrets_of_the_machine_logo.png",
+            "cover": "bendy_secrets_of_the_machine.jpg",
+            "banner": "bendy_secrets_of_the_machine_banner.jpg",
+            "screenshots": [
+                "bendy_secrets_of_the_machine_screen_1.jpg",
+                "bendy_secrets_of_the_machine_screen_2.jpg",
+                "bendy_secrets_of_the_machine_screen_3.jpg",
+                "bendy_secrets_of_the_machine_screen_4.jpg",
+                "bendy_secrets_of_the_machine_screen_5.jpg"
+            ]
+        }
+    },
+    {
+        "id": "game_bendy_lone_wolf",
+        "steam_id": 3232610,
+        "title": "Bendy: Lone Wolf",
+        "tier": "tier_standard",
+        "developer": "Joey Drew Studios",
+        "publisher": "Joey Drew Studios",
+        "release_date": "15 авг. 2025 г.",
+        "tags": [
+            "Action Roguelike",
+            "Hack and Slash",
+            "Perma Death",
+            "Arcade",
+            "Horror",
+            "Action-Adventure",
+            "Top-Down",
+            "Roguelike",
+            "3D",
+            "Action",
+            "Psychological Horror",
+            "Controller",
+            "Cartoony",
+            "Story Rich",
+            "Hand-drawn",
+            "Dark Fantasy",
+            "Tactical",
+            "Thriller",
+            "Atmospheric",
+            "Mystery"
+        ],
+        "description": "Bendy: Lone Wolf® tests your ability to survive against ever increasing odds. Monsters and obstacles emerge from every direction as you journey into the rubberhose halls of the world's most evil animation studio, set during the events of Bendy and the Dark Revival®. Every day is a challenge.",
+        "specs": {
+            "minimum": "Минимальные: | 64-разрядные процессор и операционная система | ОС: Windows 10 (64 bit) | Процессор: i5 | Оперативная память: 4 GB ОЗУ | Видеокарта: GTX 770 | DirectX: версии 11 | Место на диске: 2 GB",
+            "recommended": "Рекомендованные: | 64-разрядные процессор и операционная система"
+        },
+        "trailer": "",
+        "assets": {
+            "logo": "bendy_lone_wolf_logo.png",
+            "cover": "bendy_lone_wolf.jpg",
+            "banner": "bendy_lone_wolf_banner.jpg",
+            "screenshots": [
+                "bendy_lone_wolf_screen_1.jpg",
+                "bendy_lone_wolf_screen_2.jpg",
+                "bendy_lone_wolf_screen_3.jpg",
+                "bendy_lone_wolf_screen_4.jpg",
+                "bendy_lone_wolf_screen_5.jpg",
+                "bendy_lone_wolf_screen_6.jpg"
+            ]
+        }
+    },
+    {
+        "id": "game_bendy_and_the_ink_machine",
+        "steam_id": 622650,
+        "title": "Bendy and the Ink Machine",
+        "tier": "tier_indie",
+        "developer": "Joey Drew Studios",
+        "publisher": "Joey Drew Studios",
+        "release_date": "27 апр. 2017 г.",
+        "tags": [
+            "Horror",
+            "First-Person",
+            "Singleplayer",
+            "Puzzle",
+            "Cartoony",
+            "Cartoon",
+            "Survival Horror",
+            "Dark",
+            "Indie",
+            "Mystery",
+            "Story Rich",
+            "Action",
+            "Great Soundtrack",
+            "Atmospheric",
+            "Adventure",
+            "Psychological Horror",
+            "Violent",
+            "Funny",
+            "Cute",
+            "Survival"
+        ],
+        "description": "Bendy and the Ink Machine® is the first person puzzle action horror game that will forever ruin your childhood love of cartoons.",
+        "specs": {
+            "minimum": "Минимальные: | 64-разрядные процессор и операционная система | ОС: 10 | Процессор: 64 | Оперативная память: 8 GB ОЗУ | Видеокарта: 4GB Dedicated | DirectX: версии 12 | Место на диске: 2 GB",
+            "recommended": "Рекомендованные: | 64-разрядные процессор и операционная система"
+        },
+        "trailer": "",
+        "assets": {
+            "logo": "bendy_and_the_ink_machine_logo.png",
+            "cover": "bendy_and_the_ink_machine.jpg",
+            "banner": "bendy_and_the_ink_machine_banner.jpg",
+            "screenshots": [
+                "bendy_and_the_ink_machine_screen_1.jpg",
+                "bendy_and_the_ink_machine_screen_2.jpg",
+                "bendy_and_the_ink_machine_screen_3.jpg",
+                "bendy_and_the_ink_machine_screen_4.jpg",
+                "bendy_and_the_ink_machine_screen_5.jpg",
+                "bendy_and_the_ink_machine_screen_6.jpg"
+            ]
+        }
+    },
+    {
+        "id": "game_bendy_and_the_dark_revival",
+        "steam_id": 1063660,
+        "title": "Bendy and the Dark Revival",
+        "tier": "tier_indie",
+        "developer": "Joey Drew Studios",
+        "publisher": "Joey Drew Studios",
+        "release_date": "15 ноя. 2022 г.",
+        "tags": [
+            "Horror",
+            "Singleplayer",
+            "First-Person",
+            "Action",
+            "Survival Horror",
+            "Adventure",
+            "Indie",
+            "Cartoony",
+            "Story Rich",
+            "Dark",
+            "Puzzle",
+            "Survival",
+            "Stealth",
+            "Sequel",
+            "Action-Adventure",
+            "Combat",
+            "Atmospheric",
+            "Strategy",
+            "Great Soundtrack",
+            "Casual"
+        ],
+        "description": "Bendy and the Dark Revival® is a first-person survival horror game set in the creepiest cartoon studio to ever exist. Discover the truth. Escape the studio. Above all, fear the Ink Demon…and survive.",
+        "specs": {
+            "minimum": "Минимальные: | 64-разрядные процессор и операционная система | ОС: Windows 10 (64 bit) | Оперативная память: 8 GB ОЗУ | Видеокарта: 2GB VRAM GeForce GTX 1030, AMD RX 550 | DirectX: версии 11 | Место на диске: 15 GB",
+            "recommended": "Рекомендованные: | 64-разрядные процессор и операционная система | ОС: Windows 10 (64 bit) | Оперативная память: 16 GB ОЗУ | Видеокарта: 8GB VRAM GeForce RTX 2080, AMD Radeon VII | DirectX: версии 12 | Место на диске: 15 GB"
+        },
+        "trailer": "",
+        "assets": {
+            "logo": "bendy_and_the_dark_revival_logo.png",
+            "cover": "bendy_and_the_dark_revival.jpg",
+            "banner": "bendy_and_the_dark_revival_banner.jpg",
+            "screenshots": [
+                "bendy_and_the_dark_revival_screen_1.jpg",
+                "bendy_and_the_dark_revival_screen_2.jpg",
+                "bendy_and_the_dark_revival_screen_3.jpg",
+                "bendy_and_the_dark_revival_screen_4.jpg",
+                "bendy_and_the_dark_revival_screen_5.jpg",
+                "bendy_and_the_dark_revival_screen_6.jpg"
+            ]
+        }
+    }
+]

@@ -3,74 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Bendy Dev Feed | Development</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Dev Feed | Bendy Hub</title>
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    
+    <!-- Shared CSS -->
+    <link rel="stylesheet" href="shared/css/variables.css">
+    <link rel="stylesheet" href="shared/css/base.css">
+    <link rel="stylesheet" href="shared/css/layout.css">
+    <link rel="stylesheet" href="shared/css/ui.css">
+    
+    <!-- Page Specific CSS -->
+    <link rel="stylesheet" href="pages/feed/feed.css">
+    
     <script>
-        // Применяем тему до загрузки DOM во избежание белой вспышки
+        // Предотвращение мерцания белого фона при загрузке (FOUC)
         const savedTheme = localStorage.getItem('bendy-theme') || 'dark';
         document.documentElement.setAttribute('data-theme', savedTheme);
     </script>
 </head>
 <body>
 
-    <header class="site-header">
-        <div class="header-content">
-            <div class="header-titles">
-                <h1>Dev Feed</h1>
-                <p>Bendy Development Updates</p>
-            </div>
-            <button id="theme-toggle" class="theme-toggle" aria-label="Переключить тему">
-                <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-                <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-            </button>
-        </div>
-    </header>
+    <!-- МАГИЯ ВЕБ-КОМПОНЕНТОВ: Шапка рендерится отсюда -->
+    <site-header active-page="feed"></site-header>
 
-    <main>
+    <main class="page-content">
         <section class="feed-container">
-            
-            <!-- ПАНЕЛЬ УПРАВЛЕНИЯ (Поиск и Кастомный селект с аватарками) -->
-            <div class="feed-controls">
-                <input type="text" id="search-input" placeholder="🔍 Поиск по твитам..." aria-label="Поиск">
+            <search class="feed-controls">
                 
+                <!-- Элитный инпут поиска -->
+                <div class="search-input-wrapper">
+                    <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text" id="search-input" placeholder="Поиск по твитам..." aria-label="Поиск">
+                </div>
+                
+                <!-- Кастомный селект -->
                 <div class="custom-select-container" id="author-filter-container">
                     <button class="custom-select-trigger" aria-haspopup="listbox" aria-expanded="false">
                         <div class="custom-select-value">
                             <div class="custom-select-avatar-placeholder svg-icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
                             </div>
                             <span>Все разработчики</span>
                         </div>
-                        <svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
                     </button>
-                    
-                    <ul class="custom-select-dropdown" role="listbox">
-                        <!-- Опции будут добавлены через JS -->
-                    </ul>
+                    <ul class="custom-select-dropdown" role="listbox"></ul>
                 </div>
-            </div>
+            </search>
 
-            <!-- КОНТЕЙНЕР ЛЕНТЫ -->
-            <div id="feed-content" aria-live="polite">
-                <!-- Контент генерируется через JS -->
-            </div>
+            <div id="feed-content" aria-live="polite"></div>
             
-            <!-- ИНДИКАТОР БЕСКОНЕЧНОГО СКРОЛЛА -->
             <div id="scroll-sentinel" class="scroll-sentinel">
                 <div class="spinner"></div>
                 <span>Загрузка...</span>
             </div>
-
         </section>
     </main>
 
-    <!-- ЛАЙТБОКС (Галерея изображений) -->
-    <div id="lightbox" class="lightbox">
+    <dialog id="lightbox" class="lightbox">
         <button class="lightbox-close" aria-label="Закрыть">&times;</button>
         <img id="lightbox-img" src="" alt="Full image">
-    </div>
+    </dialog>
 
-    <!-- ШАБЛОН ПОСТА -->
     <template id="post-template">
         <article class="post-card">
             <header class="post-header">
@@ -81,45 +78,34 @@
                 </div>
                 <span class="post-platform-badge"></span>
             </header>
-            
             <div class="post-content">
-                <!-- Плашка ретвита -->
                 <div class="rt-badge" style="display: none;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>
                     <span>Оригинал: <a class="rt-author" target="_blank" rel="noopener noreferrer"></a></span>
                 </div>
-                
                 <p class="post-text"></p>
-                
-                <!-- НОВЫЙ БЛОК: Inline Перевод -->
                 <div class="post-translation" style="display: none;">
                     <div class="post-translation-header">Перевод</div>
                     <p class="post-translation-text"></p>
                 </div>
-                
-                <!-- Тег для обычных картинок -->
-                <img src="" alt="Вложение поста" class="post-media img-media" loading="lazy" style="display: none;" title="Нажмите для увеличения">
-                <!-- Новый тег для GIF / Видео -->
+                <img src="" alt="Вложение" class="post-media img-media" loading="lazy" style="display: none;" title="Нажмите для увеличения">
                 <video class="post-media video-media" autoplay loop muted playsinline style="display: none;"></video>
             </div>
-            
             <footer class="post-footer">
                 <time class="post-date" datetime=""></time>
-                
-                <!-- Кнопки действий -->
                 <div class="post-actions">
-                    <button class="action-btn translate-btn" aria-label="Перевести текст" title="Показать перевод">
-                        <svg class="translate-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                    <button class="action-btn translate-btn" aria-label="Перевести" title="Перевести">
+                        <svg class="translate-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
                         <span>Перевести</span>
                     </button>
-                    <button class="action-btn copy-btn" aria-label="Скопировать текст" title="Скопировать текст">
-                        <svg class="copy-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <button class="action-btn copy-btn" aria-label="Скопировать" title="Скопировать">
+                        <svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                     </button>
                 </div>
             </footer>
         </article>
     </template>
 
-    <script type="module" src="js/app.js"></script>
+    <script type="module" src="pages/feed/app.js"></script>
 </body>
 </html>

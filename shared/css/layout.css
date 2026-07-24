@@ -1,0 +1,87 @@
+/* =========================================
+   ШАПКА (HEADER)
+   ========================================= */
+.site-header {
+    background-color: var(--bg-card);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+[data-theme="dark"] .site-header {
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.header-content {
+    max-width: 1200px; 
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between; /* Раскидываем навигацию и кнопку по краям */
+    align-items: center;
+    padding: 1rem; /* Единый ровный отступ со всех сторон */
+    gap: 1rem;
+}
+
+.theme-toggle {
+    background-color: var(--bg-body);
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 0.6rem;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-shrink: 0; /* Не дает кнопке сжиматься на мобилках */
+}
+
+.theme-toggle:hover {
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+    transform: scale(1.05);
+}
+
+/* =========================================
+   НАВИГАЦИЯ (APP-STYLE SEGMENTED CONTROL)
+   ========================================= */
+.site-nav {
+    display: inline-flex;
+    gap: 0.25rem;
+    background-color: var(--bg-body); 
+    padding: 0.35rem;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    overflow-x: auto;
+    scrollbar-width: none;  
+}
+
+.site-nav::-webkit-scrollbar { 
+    display: none; 
+}
+
+.nav-link {
+    text-decoration: none;
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 0.5rem 1.25rem;
+    border-radius: 6px;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    user-select: none;
+    white-space: nowrap;
+}
+
+.nav-link:hover {
+    color: var(--text-main);
+}
+
+.nav-link.active {
+    color: var(--text-main);
+    background-color: var(--bg-card);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    cursor: default;
+}
+
+[data-theme="dark"] .nav-link.active {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}

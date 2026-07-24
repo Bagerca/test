@@ -1,0 +1,280 @@
+/* =====================
+   КОНТЕЙНЕР ЛЕНТЫ
+===================== */
+.feed-container {
+    max-width: 600px; 
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* =====================
+   ПАНЕЛЬ УПРАВЛЕНИЯ (Поиск и Селект)
+===================== */
+.feed-controls {
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 0.75rem;
+    background-color: var(--bg-card);
+    padding: 0.75rem; 
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+}
+
+/* Обертка для премиум-инпута */
+.search-input-wrapper {
+    position: relative;
+    flex: 1 1 200px;
+    display: flex;
+    align-items: center;
+}
+
+/* SVG иконка поиска */
+.search-icon {
+    position: absolute;
+    left: 14px;
+    color: var(--text-muted);
+    transition: color 0.3s ease;
+    pointer-events: none; /* Чтобы клик проходил сквозь иконку в поле ввода */
+}
+
+/* Само поле ввода */
+.feed-controls input {
+    width: 100%;
+    padding: 0.7rem 1rem 0.7rem 2.6rem; /* Делаем отступ слева для иконки */
+    border: 1px solid var(--border-color); 
+    border-radius: 8px;
+    background-color: var(--bg-body); 
+    color: var(--text-main);
+    font-family: inherit;
+    font-size: 0.95rem;
+    outline: none; 
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Аккуратный плейсхолдер */
+.feed-controls input::placeholder {
+    color: var(--text-muted);
+    opacity: 0.7;
+}
+
+/* Эффект фокуса на поле ввода (Мягкое свечение) */
+.feed-controls input:focus {
+    border-color: var(--accent-color);
+    background-color: var(--bg-card);
+    box-shadow: 0 0 0 3px rgba(210, 168, 80, 0.15);
+}
+
+/* Подсветка иконки, когда инпут в фокусе */
+.search-input-wrapper:focus-within .search-icon {
+    color: var(--accent-color);
+}
+
+/* Кастомный селект */
+.custom-select-container { 
+    position: relative; 
+    min-width: 220px; 
+}
+
+.custom-select-trigger {
+    width: 100%; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    padding: 0.65rem 1rem; 
+    border: 1px solid var(--border-color);
+    border-radius: 8px; 
+    background-color: var(--bg-body); 
+    color: var(--text-main);
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.custom-select-value { 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    font-weight: 500;
+}
+
+.custom-select-dropdown {
+    position: absolute; 
+    top: calc(100% + 5px); 
+    left: 0; 
+    right: 0;
+    background-color: var(--bg-card); 
+    border: 1px solid var(--border-color);
+    border-radius: 8px; 
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    list-style: none; 
+    padding: 0.5rem 0; 
+    z-index: 200; 
+    max-height: 250px; 
+    overflow-y: auto;
+    opacity: 0; 
+    visibility: hidden; 
+    transform: translateY(-10px); 
+    transition: 0.2s;
+}
+
+.custom-select-container.active .custom-select-dropdown { 
+    opacity: 1; 
+    visibility: visible; 
+    transform: translateY(0); 
+}
+
+.custom-select-option { 
+    padding: 0.6rem 1rem; 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    cursor: pointer; 
+    font-weight: 500;
+}
+
+.custom-select-option:hover { background-color: var(--bg-body); }
+.custom-select-option.selected { color: var(--accent-color); }
+
+.custom-select-avatar { 
+    width: 24px; 
+    height: 24px; 
+    border-radius: 50%; 
+    object-fit: cover;
+    border: 1px solid var(--border-color);
+}
+.custom-select-avatar-placeholder {
+    width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; color: var(--text-muted);
+}
+
+/* =====================
+   КАРТОЧКА ПОСТА
+===================== */
+#feed-content { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 1.25rem; 
+}
+
+.post-card {
+    background-color: var(--bg-card); 
+    border: 1px solid var(--border-color);
+    border-radius: 12px; 
+    padding: 1.25rem; 
+    transition: 0.2s;
+}
+
+.post-header { 
+    display: flex; 
+    align-items: center; 
+    margin-bottom: 0.85rem; 
+    gap: 0.75rem; 
+}
+
+.post-avatar { 
+    width: 48px; 
+    height: 48px; 
+    border-radius: 50%; 
+    object-fit: cover; 
+    background-color: var(--bg-body);
+}
+
+.post-meta { flex-grow: 1; display: flex; flex-direction: column; }
+.post-author-name { font-size: 1rem; font-weight: 700; line-height: 1.2;}
+.post-author-handle { color: var(--text-muted); font-size: 0.85rem; text-decoration: none; margin-top: 0.1rem;}
+.post-author-handle:hover { color: var(--accent-color); text-decoration: underline;}
+
+.post-platform-badge { font-size: 0.75rem; color: var(--text-muted); background: var(--bg-body); padding: 0.25rem 0.6rem; border-radius: 12px; text-transform: capitalize; font-weight: 600;}
+
+/* Ретвиты */
+.rt-badge { display: flex; align-items: center; gap: 6px; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.6rem; font-weight: 500;}
+.rt-badge svg { color: #00BA7C; }
+.rt-badge a { color: var(--text-main); text-decoration: none; font-weight: 600; }
+.rt-badge a:hover { color: var(--accent-color); text-decoration: underline; }
+
+/* Текст и медиа */
+.post-text { font-size: 0.95rem; white-space: pre-wrap; word-break: break-word; }
+.rich-link { color: var(--accent-color); text-decoration: none; }
+.rich-link:hover { text-decoration: underline; }
+
+.post-translation { margin-top: 1rem; padding-top: 0.75rem; border-top: 1px dashed var(--border-color); }
+.post-translation-header { font-size: 0.7rem; color: var(--text-muted); font-weight: 700; margin-bottom: 0.4rem; text-transform: uppercase; }
+
+.post-media { width: 100%; margin-top: 0.85rem; border-radius: 12px; border: 1px solid var(--border-color); max-height: 500px; object-fit: contain; cursor: zoom-in; background-color: var(--bg-body);}
+
+/* Подвал поста */
+.post-footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: var(--text-muted); border-top: 1px solid var(--border-color); padding-top: 0.75rem; margin-top: 0.5rem; }
+.post-actions { display: flex; gap: 0.5rem; }
+
+.action-btn { display: flex; align-items: center; gap: 6px; background: none; border: none; color: var(--text-muted); font-size: 0.85rem; cursor: pointer; padding: 0.4rem 0.6rem; border-radius: 6px; font-family: inherit; font-weight: 500; transition: 0.2s; }
+.action-btn:hover { background-color: var(--bg-body); color: var(--text-main); }
+.action-btn.active { color: var(--accent-color); background-color: rgba(210, 168, 80, 0.1); }
+.action-btn.success { color: #00BA7C; }
+.action-btn.loading .translate-icon { animation: spin 1s linear infinite; }
+
+/* Лоадер скролла */
+.scroll-sentinel { display: none; justify-content: center; align-items: center; gap: 10px; padding: 2rem 0; color: var(--text-muted); font-size: 0.9rem; font-weight: 500; }
+.scroll-sentinel.active { display: flex; }
+
+/* Файл: pages/feed/feed.css (Добавление в конец файла) */
+
+/* =====================
+   АНИМАЦИЯ ПОЯВЛЕНИЯ
+===================== */
+@keyframes fadeInSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.post-card {
+    /* Добавляем анимацию к существующей карточке */
+    animation: fadeInSlideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* =====================
+   EMPTY STATE (НИЧЕГО НЕ НАЙДЕНО)
+===================== */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4rem 2rem;
+    background-color: var(--bg-card);
+    border: 1px dashed var(--border-color);
+    border-radius: 12px;
+    animation: fadeInSlideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.empty-state-icon {
+    width: 80px;
+    height: 80px;
+    background-color: var(--bg-body);
+    color: var(--text-muted);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.empty-state-title {
+    font-size: 1.25rem;
+    color: var(--text-main);
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.empty-state-desc {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    max-width: 300px;
+    line-height: 1.5;
+}

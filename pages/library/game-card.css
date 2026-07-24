@@ -1,0 +1,107 @@
+/* =========================================
+   game-card.css
+   Компонент карточки игры
+   ========================================= */
+
+.game-card {
+    background-color: var(--bg-card); 
+    border: 1px solid var(--border-color);
+    border-radius: 12px; 
+    overflow: hidden; 
+    display: flex; 
+    flex-direction: column;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    cursor: pointer;
+    --card-hover-rgb: 255, 0, 0; 
+}
+
+[data-theme="dark"] .game-card { 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2); 
+}
+
+.game-card:hover {
+    transform: translateY(-6px);
+    border-color: rgb(var(--card-hover-rgb));
+    box-shadow: 0 12px 30px rgba(var(--card-hover-rgb), 0.2);
+}
+
+[data-theme="dark"] .game-card:hover {
+    box-shadow: 0 12px 30px rgba(var(--card-hover-rgb), 0.4);
+}
+
+/* КОНТЕЙНЕР ОБЛОЖКИ */
+.game-cover-container { 
+    width: 100%; 
+    aspect-ratio: 92 / 43; 
+    position: relative; 
+    overflow: hidden; 
+    background-color: var(--bg-body);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.game-cover-img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+    transition: transform 0.5s ease; 
+}
+
+.game-card:hover .game-cover-img { 
+    transform: scale(1.05); 
+}
+
+/* ЗАГЛУШКА */
+.game-cover-fallback {
+    width: 100%; 
+    height: 100%; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    background: linear-gradient(135deg, var(--bg-body) 0%, var(--bg-card) 100%);
+    color: var(--text-muted);
+}
+
+.fallback-icon { opacity: 0.3; }
+
+/* СТАТУС (ПЛАШКА) */
+.game-status-badge {
+    position: absolute; 
+    top: 12px; 
+    left: 12px; 
+    z-index: 10;
+    padding: 0.35rem 0.6rem; 
+    font-size: 0.75rem; 
+    font-weight: 700;
+    border-radius: 6px; 
+    color: #fff; 
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    backdrop-filter: blur(4px);
+}
+
+.status-released { background-color: rgba(35, 134, 54, 0.9); }
+.status-dev { background-color: rgba(210, 168, 80, 0.95); color: #000; }
+.status-other { background-color: rgba(100, 100, 100, 0.9); }
+
+/* ИНФОРМАЦИЯ */
+.game-info {
+    padding: 0.85rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.game-title { 
+    font-size: 1.05rem;
+    font-weight: 700; 
+    color: var(--text-main);
+    line-height: 1.2;
+}
+
+.game-year { 
+    font-size: 0.8rem; 
+    font-weight: 600; 
+    color: var(--text-muted); 
+}

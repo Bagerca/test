@@ -1,0 +1,362 @@
+/* =========================================
+   game-modal.css
+   Современный Иммерсивный UI Модалки
+   ========================================= */
+
+.game-detail-modal {
+    max-width: 1400px;
+    width: 95%;
+    padding: 0;
+    overflow: hidden; /* Важно, чтобы размытый фон не вылезал за края */
+    background-color: var(--bg-card); /* Фолбэк */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+/* --- ИММЕРСИВНЫЙ ФОН --- */
+.modal-dynamic-bg {
+    position: absolute;
+    top: -10%; left: -10%; right: -10%; bottom: -10%;
+    background-size: cover;
+    background-position: center;
+    filter: blur(40px) brightness(0.6);
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+
+.modal-bg-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    /* Градиент, чтобы текст читался идеально на любом фоне */
+    background: linear-gradient(180deg, rgba(var(--bg-card-rgb, 28, 33, 40), 0.7) 0%, var(--bg-card) 100%);
+}
+
+[data-theme="light"] .modal-bg-overlay {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, var(--bg-card) 100%);
+}
+
+.modal-scroll-area {
+    position: relative;
+    z-index: 2; /* Поверх фона */
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 4rem 5rem;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(120, 120, 120, 0.5) transparent;
+}
+
+/* Кнопка закрытия */
+.modal-close {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    color: #fff;
+    z-index: 10;
+}
+.modal-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: rotate(90deg);
+}
+
+/* --- ВЕРХНЯЯ СЕКЦИЯ --- */
+.modal-top-section {
+    display: flex;
+    gap: 4.5rem; 
+    align-items: flex-start;
+}
+
+/* 1. ЛЕВАЯ КОЛОНКА */
+.modal-sidebar {
+    width: 320px; 
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; 
+    position: sticky;
+    top: 0;
+}
+
+.modal-poster {
+    width: 100%;
+    border-radius: 16px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.05); 
+    object-fit: cover;
+    aspect-ratio: 2 / 3;
+}
+
+.modal-links {
+    display: flex;
+    flex-direction: column;
+}
+
+.store-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    color: var(--text-main);
+    text-decoration: none;
+    padding: 1.15rem; 
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1.05rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.store-link:hover {
+    background-color: var(--text-main);
+    color: var(--bg-card);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* 2. ЦЕНТРАЛЬНАЯ КОЛОНКА */
+.modal-middle-content {
+    flex: 1.5; 
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem; 
+    min-width: 0; 
+}
+
+.modal-logo {
+    max-width: 550px; /* Увеличили максимальную ширину (было 450px) */
+    max-height: 220px; /* Увеличили высоту (было 160px) */
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    object-position: center; /* Центрируем саму картинку внутри её контейнера */
+    margin: 0 auto 0.5rem auto; /* Выравниваем контейнер по центру колонки */
+    display: block;
+    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.4)); /* Сделали тень чуть глубже для объема */
+}
+
+/* Фолбэк-заголовок (если логотипа нет), тоже выравниваем по центру */
+.modal-game-title {
+    font-size: 3.2rem; 
+    font-weight: 900;
+    line-height: 1.1;
+    color: var(--text-main);
+    letter-spacing: -0.5px;
+    text-align: center; /* Центрируем текст */
+    margin: 0 auto 0.5rem auto;
+}
+
+.modal-dev-info {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-top: -1rem;
+}
+
+/* Теги и плашки (Сделали их мягче и "дороже") */
+.modal-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.meta-tag {
+    background-color: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(5px);
+    padding: 0.5rem 1.25rem; 
+    border-radius: 30px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-main);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.modal-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.game-tag {
+    background-color: rgba(210, 168, 80, 0.15); /* Мягкий фон без рамок */
+    color: var(--accent-color);
+    padding: 0.4rem 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: 0.2s;
+}
+.game-tag:hover {
+    background-color: rgba(210, 168, 80, 0.25);
+}
+
+.modal-description {
+    color: var(--text-main);
+    font-size: 1.15rem; 
+    line-height: 1.8; 
+    white-space: pre-line; 
+    opacity: 0.9;
+}
+
+/* 3. ПРАВАЯ КОЛОНКА (Требования - Компактный Tech UI) */
+.modal-right-content {
+    width: 320px; /* Сделали колонку уже (было 380px) */
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    margin-top: 0.5rem; /* Немного опускаем, чтобы выровнять с контентом по центру */
+}
+
+/* На всякий случай скрываем заголовок, если он остался в HTML */
+.modal-requirements .section-title {
+    display: none;
+}
+
+.req-content {
+    background-color: rgba(0, 0, 0, 0.2); 
+    backdrop-filter: blur(15px); 
+    border-radius: 12px; /* Чуть меньше скругление для компактного блока */
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02), 0 10px 30px rgba(0,0,0,0.2);
+    overflow: hidden; 
+}
+
+[data-theme="light"] .req-content {
+    background-color: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* Блок требований (Мин / Рек) */
+.req-block {
+    padding: 1.25rem; /* Уменьшили внутренние отступы (было 1.75rem) */
+}
+
+/* Разделитель между минимальными и рекомендованными */
+.req-block + .req-block {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .req-block + .req-block {
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.req-title {
+    font-size: 0.85rem; /* Уменьшили заголовок (МИН/РЕК) */
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-main);
+    margin-bottom: 0.75rem; /* Уменьшили отступ вниз */
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.req-title::before {
+    content: "";
+    display: block;
+    width: 3px;
+    height: 12px;
+    background-color: var(--accent-color);
+    border-radius: 2px;
+}
+
+/* Списки */
+.req-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem; /* Сделали строки плотнее (было 0.85rem) */
+}
+
+.req-list li {
+    font-size: 0.85rem; /* Сделали шрифт мельче и аккуратнее */
+    color: var(--text-main);
+    opacity: 0.85;
+    line-height: 1.35;
+    position: relative;
+    padding-left: 14px; /* Прижали текст ближе к маркеру */
+}
+
+/* Техно-маркер */
+.req-list li::before {
+    content: "▹";
+    color: var(--accent-color);
+    position: absolute;
+    left: 0;
+    top: -1px;
+    font-size: 1rem; /* Уменьшили иконку-маркер */
+    font-weight: bold;
+}
+
+/* Стили для ярлыков (ОС, Процессор и тд) */
+.req-label {
+    font-weight: 700;
+    color: #fff;
+    margin-right: 4px;
+    opacity: 1 !important;
+}
+
+[data-theme="light"] .req-label {
+    color: #000;
+}
+
+/* --- НИЖНЯЯ СЕКЦИЯ (Скриншоты) --- */
+.modal-bottom-section {
+    margin-top: 5rem; 
+}
+
+.screenshots-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+    gap: 1.5rem;
+}
+
+.screenshot-img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 12px; /* Мягкие углы */
+    cursor: zoom-in;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.screenshot-img:hover {
+    transform: scale(1.04);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+    z-index: 2;
+    position: relative;
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* АДАПТИВНОСТЬ МОДАЛКИ */
+@media (max-width: 1200px) {
+    .modal-top-section { flex-wrap: wrap; }
+    .modal-right-content { width: 100%; }
+}
+
+@media (max-width: 768px) {
+    .modal-scroll-area { padding: 2.5rem 1.5rem; }
+    .modal-top-section { flex-direction: column; gap: 2.5rem; }
+    .modal-sidebar {
+        width: 100%;
+        position: static;
+        flex-direction: column; 
+        align-items: center;
+    }
+    .modal-poster { width: 220px; }
+    .modal-links { width: 100%; }
+    .modal-logo { max-width: 100%; }
+    .modal-game-title { font-size: 2.4rem; text-align: center; }
+    .modal-dev-info, .modal-meta, .modal-tags { justify-content: center; text-align: center; }
+    .screenshots-grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
+}

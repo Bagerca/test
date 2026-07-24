@@ -1,0 +1,24 @@
+/* =========================================
+   library.css
+   Лэйаут страницы "Библиотека Игр"
+   ========================================= */
+
+.library-container {
+    width: 100%; 
+    padding-top: 1rem; 
+}
+
+/* СЕТКА ИГР */
+.games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+/* АДАПТИВНОСТЬ СЕТКИ */
+@media (max-width: 600px) {
+    .games-grid { 
+        grid-template-columns: 1fr; 
+        gap: 1.25rem; 
+    }
+}

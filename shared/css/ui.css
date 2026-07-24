@@ -1,0 +1,141 @@
+/* =========================================
+   ui.css
+   Глобальные UI компоненты
+   ========================================= */
+
+/* Лоадеры и ошибки */
+.loading-state {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 3rem 1rem;
+    font-weight: 500;
+}
+
+.error-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    color: var(--error-color);
+    background-color: var(--error-bg);
+    border: 1px solid var(--error-color);
+    padding: 1.5rem;
+    border-radius: 12px;
+}
+
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid var(--border-color);
+    border-top-color: var(--accent-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Лайтбокс */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    backdrop-filter: blur(5px);
+    border: none;
+}
+
+.lightbox.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.lightbox img {
+    max-width: 90%;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 8px;
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+}
+
+.lightbox.active img { transform: scale(1); }
+
+.lightbox-close {
+    position: absolute;
+    top: 20px; right: 25px;
+    background: none; border: none;
+    color: white; font-size: 3rem;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+.lightbox-close:hover { color: var(--accent-color); }
+
+/* =========================================
+   БАЗОВЫЕ СТИЛИ ДЛЯ <DIALOG> (Скелет)
+   ========================================= */
+.custom-modal {
+    margin: auto;
+    padding: 0;
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    background-color: var(--bg-card);
+    color: var(--text-main);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    max-width: 600px;
+    width: 90%;
+    overflow: visible;
+    
+    opacity: 0;
+    transform: scale(0.95) translateY(15px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.custom-modal::backdrop {
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.custom-modal.active {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+}
+
+.custom-modal.active::backdrop {
+    opacity: 1;
+}
+
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: var(--bg-body);
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.2s;
+    line-height: 0;
+    z-index: 100;
+}
+
+.modal-close:hover {
+    color: var(--error-color);
+    border-color: var(--error-color);
+    transform: scale(1.1);
+}
